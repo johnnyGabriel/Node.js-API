@@ -10,20 +10,20 @@ var produtoSchema = mongoose.Schema({
     }
 })
 
-produtoSchema.statics.findAll = (callback) =>
+produtoSchema.statics.getAll = (callback) =>
     Produto.find( {}, { historico: 0 }, callback )
     
-produtoSchema.statics.findById = (id, callback) =>
+produtoSchema.statics.getById = (id, callback) =>
     Produto.findOne( { _id: id }, { historico: 0 }, callback )
 
-produtoSchema.statics.insert = (produto, callback) => {
+produtoSchema.statics.set = (produto, callback) => {
     var p = new Produto(produto)
     p.save(callback)
 }
 
-produtoSchema.statics.edit = (id, produto, callback) =>
+produtoSchema.statics.setById = (id, produto, callback) =>
     Produto.update({ _id: id }, { $set: produto }, callback)
 
-var Produto = mongoose.model('Produto', produtoSchema);
+const Produto = mongoose.model('Produto', produtoSchema);
 
 module.exports = Produto

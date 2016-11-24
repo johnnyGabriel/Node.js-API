@@ -7,7 +7,7 @@ router.route('/')
 
     .get((req, res) => {
 
-        Produto.findAll((err, produtos) => {
+        Produto.getAll((err, produtos) => {
             res.json(produtos)
         })
 
@@ -15,7 +15,7 @@ router.route('/')
 
     .post((req, res) => {
 
-        Produto.insert(req.body, (err, produto) => {
+        Produto.set(req.body, (err, produto) => {
 
             if (err)
                 res.json({ inserted: 0 })
@@ -32,7 +32,7 @@ router.route('/:produtoId')
 
     .get((req, res) => {
 
-        Produto.findById(req.params.produtoId, (err, produto) => {
+        Produto.getById(req.params.produtoId, (err, produto) => {
             res.json(produto)
         })
 
@@ -40,7 +40,7 @@ router.route('/:produtoId')
 
     .put((req, res) => {
 
-        Produto.edit(req.params.produtoId, req.body, (err, produto) => {
+        Produto.setById(req.params.produtoId, req.body, (err, produto) => {
 
             if (err)
                 res.json({ updated: 0 })
