@@ -3,7 +3,7 @@ const Banner = require('../Models/banner')
 
 var router = express.Router()
 
-router.route('')
+router.route('/banners')
 
     .get((req, res) => {
 
@@ -31,7 +31,7 @@ router.route('')
 
     })
 
-router.route('/:bannerId')
+router.route('/banners/:bannerId')
 
     .get((req, res) => {
 

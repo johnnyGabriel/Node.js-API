@@ -1,5 +1,5 @@
 {
-  "name": "Node.js API",
+  "name": "node-js-api",
   "version": "1.0.0",
   "description": "API escrita em Node.js utilizando expressjs e mongodb",
   "main": "app.js",
@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
     "express": "^4.14.0",
+    "helmet": "^3.1.0",
     "mongoose": "^4.6.8",
     "morgan": "^1.7.0"
   }

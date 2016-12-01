@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const schemaOptions = require('../schemaOptions')
 
 const bannerSchema = mongoose.Schema({
     titulo: String,
@@ -6,11 +7,22 @@ const bannerSchema = mongoose.Schema({
     imagem: String
 })
 
+const projection = {
+    __v: 0
+}
+
+bannerSchema.set('toJSON', {
+    virtuals: true,
+    transform(doc, ret, options) {
+        delete ret._id
+    }
+})
+
 bannerSchema.statics.getAll = (callback) =>
-    Banner.find(callback)
+    Banner.find({}, projection, callback)
     
 bannerSchema.statics.getById = (id, callback) =>
-    Banner.findOne({ _id: id }, callback)
+    Banner.findOne({ _id: id }, projection, callback)
 
 bannerSchema.statics.set = (banner, callback) => {
     var p = new Banner(banner)

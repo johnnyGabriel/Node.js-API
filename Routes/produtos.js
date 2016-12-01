@@ -3,7 +3,7 @@ const Produto = require('../Models/produto')
 
 var router = express.Router()
 
-router.route('/')
+router.route('/produtos')
 
     .get((req, res) => {
 
@@ -28,11 +28,15 @@ router.route('/')
         })
     })
 
-router.route('/:produtoId')
+router.route('/produtos/:produtoId')
 
     .get((req, res) => {
 
         Produto.getById(req.params.produtoId, (err, produto) => {
+
+            if (err)
+                res.json({ error: 1 })
+
             res.json(produto)
         })
 
