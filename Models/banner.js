@@ -1,25 +1,19 @@
 const mongoose = require('mongoose')
 const schemaOptions = require('../schemaOptions')
 
-const bannerSchema = mongoose.Schema({
-    titulo: String,
-    subtitulo: String,
-    imagem: String
-})
-
 const projection = {
     __v: 0
 }
 
-bannerSchema.set('toJSON', {
-    virtuals: true,
-    transform(doc, ret, options) {
-        delete ret._id
-    }
-})
+const bannerSchema = mongoose.Schema({
+    ativo: { type: Boolean, default: true },
+    titulo: String,
+    subtitulo: String,
+    imagem: String
+}, schemaOptions)
 
 bannerSchema.statics.getAll = (callback) =>
-    Banner.find({}, projection, callback)
+    Banner.find({ ativo: 1 }, projection, callback)
     
 bannerSchema.statics.getById = (id, callback) =>
     Banner.findOne({ _id: id }, projection, callback)

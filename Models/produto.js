@@ -7,17 +7,15 @@ const projection = {
 }
 
 const produtoSchema = mongoose.Schema({
+    ativo: { type: Boolean, default: true },
     nome: String,
     descricao: String,
     valor: Number,
-    imagem: {
-        type: String,
-        default: 'http://downloadicons.net/sites/default/files/broken-link-icon-60794.png'
-    }
+    imagem: String
 }, schemaOptions)
 
 produtoSchema.statics.getAll = (callback) =>
-    Produto.find({}, projection, callback)
+    Produto.find({ ativo: 1 }, projection, callback)
     
 produtoSchema.statics.getById = (id, callback) =>
     Produto.findOne({ _id: id }, projection, callback)
