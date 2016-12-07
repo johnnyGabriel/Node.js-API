@@ -8,25 +8,50 @@ const projection = {
 
 const produtoSchema = mongoose.Schema({
     ativo: { type: Boolean, default: true },
-    nome: String,
-    descricao: String,
-    valor: Number,
+    nome: { type: String, required: true },
+    descricao: { type: String, required: true },
+    valor: { type: Number, min: 0, required: true },
     imagem: String
 }, schemaOptions)
 
-produtoSchema.statics.getAll = (callback) =>
-    Produto.find({ ativo: 1 }, projection, callback)
-    
-produtoSchema.statics.getById = (id, callback) =>
-    Produto.findOne({ _id: id }, projection, callback)
+produtoSchema.statics.getAll = (success, fail) => {
 
-produtoSchema.statics.set = (produto, callback) => {
-    var p = new Produto(produto)
-    p.save(callback)
+    Produto.find({}, projection, (err, data) => {
+
+        if (err)
+            fail('Erro ao buscar os produtos')
+        else
+            success(data)
+
+    })
+
 }
 
-produtoSchema.statics.setById = (id, produto, callback) =>
-    Produto.update({ _id: id }, { $set: produto }, callback)
+produtoSchema.statics.getById = (id, success, fail) => {
+
+
+
+}
+
+produtoSchema.statics.insert = (produto, success, fail) => {
+
+    var produto = new Produto(produto)
+
+    produto.save((err, data) => {
+
+        if (err)
+            fail(err.errors.valor.message)
+        else
+            success(data)
+
+    })
+}
+
+produtoSchema.statics.update = (id, produto, success, fail) => {
+
+
+
+}
 
 const Produto = mongoose.model('Produto', produtoSchema);
 

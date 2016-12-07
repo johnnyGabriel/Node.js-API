@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
+const compression = require('compression')
 const mongoose = require('mongoose')
 
 // config
@@ -19,17 +20,14 @@ const app = express()
 // format json
 app.set('json spaces', 2)
 
-// helmet protect
-app.use(helmet())
-
-// parse json
-app.use(bodyParser.json())
-
-// enable cors request
-app.use(cors())
-
-// log requests
-app.use(morgan('dev'))
+// middlewares for all routes
+app.use([
+    helmet(),
+    cors(),
+    bodyParser.json(),
+    compression(),
+    morgan('dev')
+])
 
 app.get('/', (req, res) => {
     res.send('Bem vindo !!!')
@@ -43,7 +41,7 @@ app.use('/api', [
 
 // fallback
 app.use('*', (req, res) => {
-    res.send('Rota inexistente!')
+    res.sendStatus(400)
 })
 
 // start on localhost:3000
