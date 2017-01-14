@@ -1,4 +1,5 @@
 const express = require('express')
+const _ = require('underscore')
 const Produto = require('../Models/produto')
 
 var router = express.Router()
@@ -7,15 +8,18 @@ router.route('/produtos')
 
     .get((req, res) => {
 
-        Produto.getAll( (data) => {
+        const success = (data) => { res.json(data) }
+        const fail = (err) => { res.status(500).send(err) }
 
-            res.json(data)
+        ( req.query.search ?
+            Produto.search(
+                    req.query.search,
+                    _.pick( req.query, 'ativo' ),
+                    success,
+                    fail
+                ) :
+            Produto.getAll( req.query, success, fail ) )
 
-        }, (err) => {
-
-            res.status(500).send(err)
-
-        })
 
     })
 
@@ -35,6 +39,22 @@ router.route('/produtos')
         })
 
     })
+
+// router.route('/produtos/search/:searchString')
+    
+//     .get( (req, res) => {
+
+//         Produto.search( req.params.searchString, (data) => {
+
+//             res.json(data)
+
+//         }, (err) => {
+
+//             res.status(500).send(err)
+
+//         })
+
+//     })
 
 router.route('/produtos/:produtoId')
 
